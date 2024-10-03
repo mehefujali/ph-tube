@@ -11,6 +11,15 @@ const fetchContentData = (url) => {
             .then(data => displayContent(data.videos))
             .catch(eror => console.log(eror))
 }
+const sowCategory = (catId) => {
+      fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${catId}`)
+            .then(res => res.json())
+            .then(data => displayContent(data.category))
+            .catch(eror => console.log(eror))
+
+
+
+}
 
 const catagoryUrl = 'https://openapi.programming-hero.com/api/phero-tube/categories'
 const contentDataUrl = 'https://openapi.programming-hero.com/api/phero-tube/videos'
@@ -48,10 +57,13 @@ const getTime = (time) => {
 const displayCategories = (datas) => {
       const categoriesBtns = document.getElementById('catagoryBtns')
       datas.forEach(catagory => {
-            const btn = document.createElement('button')
-            btn.classList = "px-4 py-1 bg-gray-200 rounded btn"
-            btn.innerText = catagory.category
-            categoriesBtns.appendChild(btn)
+            const btnDivu = document.createElement('div')
+            btnDivu.innerHTML = `
+            <button onclick="sowCategory(${catagory.category_id})" class="px-4 py-1 bg-gray-200 rounded btn">${catagory.category}</button
+            `
+            // console.log(catagory);
+
+            categoriesBtns.appendChild(btnDivu)
             // console.log(catagory.category);
 
       });
@@ -60,6 +72,7 @@ const displayCategories = (datas) => {
 
 const displayContent = (data) => {
       const contentSection = document.getElementById('content')
+      contentSection.innerHTML = ``
       data.forEach(content => {
             const videoCard = document.createElement('div')
             videoCard.innerHTML = `
